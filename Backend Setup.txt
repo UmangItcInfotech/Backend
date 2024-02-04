@@ -1,6 +1,7 @@
 Backend Setup
 
 STEP 1: Install dotnet asp.net core 8 sdk
+STEP 2: Install proper database (postgres)
 
 STEP 2: Do this in all microservies
 
