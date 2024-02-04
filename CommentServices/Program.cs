@@ -1,5 +1,7 @@
 using CommentServices.Context;
 using CommentServices.Services;
+using Consul;
+using ConsulServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -57,6 +59,14 @@ builder.Services.AddSwaggerGen(options =>
     });
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
+// Register Consul client
+builder.Services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
+{
+    consulConfig.Address = new Uri(builder.Configuration.GetSection("ConsulConf:ConsulUri").Value);
+}));
+builder.Services.AddSingleton<IHostedService, ConsulHostedService>();
+builder.Services.Configure<ConsulConfig>(builder.Configuration.GetSection("Consul"));
 
 var app = builder.Build();
 

@@ -1,5 +1,7 @@
 using BlogServices.Context;
 using BlogServices.Services;
+using Consul;
+using ConsulServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -60,6 +62,14 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
+
+// Register Consul client
+builder.Services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
+{
+    consulConfig.Address = new Uri(builder.Configuration.GetSection("ConsulConf:ConsulUri").Value);
+}));
+builder.Services.AddSingleton<IHostedService, ConsulHostedService>();
+builder.Services.Configure<ConsulConfig>(builder.Configuration.GetSection("Consul"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

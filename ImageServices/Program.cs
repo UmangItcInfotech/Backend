@@ -1,3 +1,5 @@
+using Consul;
+using ConsulServices;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Register Consul client
+builder.Services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
+{
+    consulConfig.Address = new Uri(builder.Configuration.GetSection("ConsulConf:ConsulUri").Value);
+}));
+builder.Services.AddSingleton<IHostedService, ConsulHostedService>();
+builder.Services.Configure<ConsulConfig>(builder.Configuration.GetSection("Consul"));
 
 var app = builder.Build();
 
