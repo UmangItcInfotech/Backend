@@ -20,7 +20,7 @@ namespace ApiGateway
             {
                 foreach (var service in serviceEntry.Value)
                 {
-                    var downstreamPath = $"/api/{service}"; // Adjust this based on your service naming conventions
+                    var downstreamPath = $"/api/{service}";
                     var downstreamRoute = new DownstreamRouteBuilder()
                         .WithServiceName(service)
                         .WithDownstreamPathTemplate(downstreamPath)

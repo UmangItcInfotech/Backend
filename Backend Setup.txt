@@ -1,0 +1,28 @@
+Backend Setup
+
+STEP 1: Install dotnet asp.net core 8 sdk
+
+STEP 2: Do this in all microservies
+
+	update the appsettings.json file for "DefaultConnection" (db connection string) 
+
+	install dotnet-ef tools
+
+	run command "dotnet ef database update"
+
+Step 3: install consul (https://www.c-sharpcorner.com/blogs/service-discovery-consul-in-asp-net-core-api-with-ocelot-gateway) 
+Step 4: in all microservice appsettings.json, update consul based setting urls
+Step 5: go the folder where consul is downloaded, extract it and run: consul agent -dev
+Step 6: run all the microservices
+
+
+
+
+
+PortNumber:
+gateway 5006
+blog 5002
+comment 5003
+consul 5001
+image 5005
+user 5004

@@ -79,12 +79,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// allowed all cors for testing purpose(extremely public api)
-app.UseCors(options =>
-{
-    options.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod();
-});
-
 //authentication middleware added
 app.UseAuthentication();
 

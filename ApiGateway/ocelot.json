@@ -1,32 +1,54 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/Blogs/{everything}",
-      "UpstreamPathTemplate": "/api/Blogs/{everything}",
+      "DownstreamPathTemplate": "/api/Blogs/{id}",
+      "UpstreamPathTemplate": "/api/Blogs/{id}",
       "ServiceName": "Blogs",
       "UseServiceDiscovery": true,
-      "DownstreamScheme": "http"
+      "DownstreamScheme": "http",
+      "UpstreamHttpMethod": [ "Get", "Patch" ],
+      "AddHeadersToRequest": {
+        "Authorization": "Bearer {token}"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Blogs",
+      "UpstreamPathTemplate": "/api/Blogs",
+      "ServiceName": "Blogs",
+      "UseServiceDiscovery": true,
+      "DownstreamScheme": "http",
+      "UpstreamHttpMethod": [ "Post", "Get" ],
+      "AddHeadersToRequest": {
+        "Authorization": "Bearer {token}"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/Comments/{everything}",
       "UpstreamPathTemplate": "/api/Comments/{everything}",
       "ServiceName": "Comments",
       "UseServiceDiscovery": true,
-      "DownstreamScheme": "http"
+      "DownstreamScheme": "http",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "AddHeadersToRequest": {
+        "Authorization": "Bearer {token}"
+      }
+
     },
     {
       "DownstreamPathTemplate": "/api/Images/{everything}",
       "UpstreamPathTemplate": "/api/Images/{everything}",
       "ServiceName": "Images",
       "UseServiceDiscovery": true,
-      "DownstreamScheme": "http"
+      "DownstreamScheme": "http",
+      "UpstreamHttpMethod": [ "Post" ]
     },
     {
       "DownstreamPathTemplate": "/api/Users/{everything}",
       "UpstreamPathTemplate": "/api/Users/{everything}",
       "ServiceName": "Users",
       "UseServiceDiscovery": true,
-      "DownstreamScheme": "http"
+      "DownstreamScheme": "http",
+      "UpstreamHttpMethod": [ "Post" ]
     }
   ],
   "GlobalConfiguration": {
@@ -34,7 +56,7 @@
       "Type": "Consul",
       "Host": "localhost",
       "Port": 8500,
-      "PollingInterval": 50000
+      "PollingInterval": 5000
     }
   }
 }

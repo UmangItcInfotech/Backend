@@ -38,11 +38,6 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/static"
 });
 
-// allowed all cors for testing purpose(extremely public api)
-app.UseCors(options =>
-{
-    options.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod();
-});
 
 app.UseAuthorization();
 
