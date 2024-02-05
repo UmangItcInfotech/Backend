@@ -1,4 +1,4 @@
-﻿using CommentServices.Context;
+using CommentServices.Context;
 using CommentServices.Models.Domains;
 using CommentServices.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +15,7 @@ namespace CommentServices.Services
 
         }
 
-        public IEnumerable<Comment> GetCommentsByBlogId(Guid BlogId)
+        public IEnumerable<Comment[]> GetCommentsByBlogId(Guid BlogId)
         {
             var find = _context.Comments.Where(id => id.BlogId == BlogId);
             return find;
