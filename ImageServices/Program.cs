@@ -1,5 +1,4 @@
 using Consul;
-using ConsulServices;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,13 +10,24 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Register Consul client
+/*// Register Consul client
 builder.Services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
 {
     consulConfig.Address = new Uri(builder.Configuration.GetSection("ConsulConf:ConsulUri").Value);
 }));
 builder.Services.AddSingleton<IHostedService, ConsulHostedService>();
-builder.Services.Configure<ConsulConfig>(builder.Configuration.GetSection("Consul"));
+builder.Services.Configure<ConsulConfig>(builder.Configuration.GetSection("Consul"));*/
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAny", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 
 var app = builder.Build();
 
@@ -38,6 +48,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/static"
 });
 
+app.UseCors("AllowAny");
 
 app.UseAuthorization();
 

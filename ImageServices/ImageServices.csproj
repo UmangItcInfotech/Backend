@@ -19,8 +19,4 @@
     <Folder Include="static\images\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ConsulServices\ConsulServices.csproj" />
-  </ItemGroup>
-
 </Project>

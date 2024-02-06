@@ -1,5 +1,4 @@
 using Consul;
-using ConsulServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
@@ -23,13 +22,24 @@ builder.Services.AddDbContext<UserDbContext>(options => options.UseNpgsql(builde
 builder.Services.AddTransient<IUserService, UserService>();
 
 
-// Register Consul client
+/*// Register Consul client
 builder.Services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
 {
     consulConfig.Address = new Uri(builder.Configuration.GetSection("ConsulConf:ConsulUri").Value);
 }));
 builder.Services.AddSingleton<IHostedService, ConsulHostedService>();
-builder.Services.Configure<ConsulConfig>(builder.Configuration.GetSection("Consul"));
+builder.Services.Configure<ConsulConfig>(builder.Configuration.GetSection("Consul"));*/
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAny", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
 
 //authentication for JWT bearer token
@@ -86,6 +96,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 
+app.UseCors("AllowAny");
 
 //add authentication middleware
 app.UseAuthentication();
