@@ -1,90 +1,64 @@
-version: '3'
+version: '3.7'
+
 services:
-  api_gateway:
+  user:
+    image: userservice
     build:
-      context: .
-      dockerfile: ApiGateway/Dockerfile
+      context: ./UserServices
+      dockerfile: Dockerfile
     ports:
-      - "8080:8080"
-      - "8081:8081"
+      - "5004:8080"
     networks:
-      - my_network
-    depends_on:
-      - postgres_db
-
-  blog_service:
-    build:
-      context: .
-      dockerfile: BlogServices/Dockerfile
-    ports:
-      - "8082:8082"
-    networks:
-      - my_network
-    depends_on:
-      - postgres_db
-
-  comment_service:
-    build:
-      context: .
-      dockerfile: CommentServices/Dockerfile
-    ports:
-      - "8084:8084"
-    networks:
-      - my_network
-    depends_on:
-      - postgres_db
-
-  consul_service:
-    build:
-      context: .
-      dockerfile: ConsulServices/Dockerfile
-    ports:
-      - "8083:8083"
-    networks:
-      - my_network
-    depends_on:
-      - postgres_db
-
-  image_service:
-    build:
-      context: .
-      dockerfile: ImageServices/Dockerfile
-    ports:
-      - "8085:8085"
-    networks:
-      - my_network
-    depends_on:
-      - postgres_db
-
-  user_service:
-    build:
-      context: .
-      dockerfile: UserServices/Dockerfile
-    ports:
-      - "8086:8086"
-    networks:
-      - my_network
-    depends_on:
-      - postgres_db
-
-  postgres_db:
-    container_name: postgres_db
-    image: postgres:13
+      - backend-network
     environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydb
+      ASPNETCORE_ENVIRONMENT: "Production"
+
+  image:
+    image: imageservice
+    build:
+      context: ./ImageServices
+      dockerfile: Dockerfile
     ports:
-      - "5432:5432"
+      - "5005:8080"
     networks:
-      - my_network
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - backend-network
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+
+  comment:
+    image: commentservice
+    build:
+      context: ./CommentServices
+      dockerfile: Dockerfile
+    ports:
+      - "5003:8080"
+    networks:
+      - backend-network
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+
+  blog:
+    image: blogservice
+    build:
+      context: ./BlogServices
+      dockerfile: Dockerfile
+    ports:
+      - "5002:8080"
+    networks:
+      - backend-network
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "LatestBlogDB"
+    networks:
+      - backend-network
 
 networks:
-  my_network:
+  backend-network:
     driver: bridge
-
-volumes:
-  postgres_data:
-
