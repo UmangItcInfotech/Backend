@@ -46,7 +46,9 @@ namespace BlogServices.Controllers
         public async Task<IActionResult> AddBlogPost([FromBody] BlogRequest req)
         {
             string userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+            string name = HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
             req.UserEmail = userEmail;
+            req.Author = name;
             var result = await _service.AddBlog(req);
             if(result > 0)
             {

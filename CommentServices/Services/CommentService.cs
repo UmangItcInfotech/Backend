@@ -29,7 +29,8 @@ namespace CommentServices.Services
                 {
                     BlogId = BlogId,
                     CommentText = req.CommentText,
-                    UserEmail = req.UserEmail
+                    UserEmail = req.UserEmail,
+                    Name = req.Name,
                 };
 
                 await _context.Comments.AddAsync(newComment);

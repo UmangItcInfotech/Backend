@@ -18,5 +18,8 @@ namespace CommentServices.Models.Domains
         [Required]
         public Guid BlogId { get; set; }
 
+        [Required]
+        public string Name { get; set; }
+
     }
 }

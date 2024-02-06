@@ -15,6 +15,9 @@ namespace CommentServices.Models.DTOs
 
         [Required]
         public Guid BlogId { get; set; }
+
+        [Required]
+        public string Name { get; set; }
     }
 
 }

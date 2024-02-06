@@ -34,7 +34,9 @@ namespace CommentServices.Controllers
         public async Task<IActionResult> AddComment([FromBody] CommentRequest req, Guid blogId)
         {
             string userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+            string name = HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
             req.UserEmail = userEmail;
+            req.Name = name;
             var result = await _service.AddComment(req, blogId);
 
             if(result > 0)
