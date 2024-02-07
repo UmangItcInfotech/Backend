@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -81,11 +82,15 @@ namespace UserServices.Services
 
 
         //get user information
-        public async Task<User> GetUserInfo(loginRequest u)
+        public async Task<User> GetUserInfo(string email)
         {
-            return await _context.Users.FindAsync(u.Email);
+            return await _context.Users.FindAsync(email);
            
         }
+
+      
+
+
 
     }
 }

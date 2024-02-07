@@ -9,6 +9,6 @@ namespace UserServices.Services
         Task<bool> UserExists(User u);
         Task<int> Validate(loginRequest u);
         string CreateToken(User userInfo, IConfiguration config);
-        Task<User> GetUserInfo(loginRequest u);
+        Task<User> GetUserInfo(string email);
     }
 }

@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Security.Claims;
 using UserServices.Models.Domains;
 using UserServices.Models.DTOs;
 using UserServices.Services;
@@ -55,7 +58,7 @@ namespace UserServices.Controllers
             }
         }
 
-
+        
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] loginRequest loginUser)
         {
@@ -65,7 +68,7 @@ namespace UserServices.Controllers
                 var result = await _service.Validate(loginUser);
                 if(result > 0)
                 {
-                    var user = await _service.GetUserInfo(loginUser);
+                    var user = await _service.GetUserInfo(loginUser.Email);
                     var tokenString = _service.CreateToken(user, _config);
                     return Ok(new { token = tokenString });
                 }
@@ -81,6 +84,20 @@ namespace UserServices.Controllers
             {
                 return new StatusCodeResult(500);
             }
+        }
+
+        [Authorize]
+        [HttpGet("/getinfo")]
+        public async Task<IActionResult> GetInfo()
+        {
+            string userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+            var user = await _service.GetUserInfo(userEmail);
+
+            if (user is User && user is not null)
+            {
+                return Ok(user);
+            }
+            return NotFound("User not found");
         }
 
     }
