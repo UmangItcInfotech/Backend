@@ -4,7 +4,10 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "blogservices": "StartDebugging"
+        "blogservices": "StartDebugging",
+        "userservices": "StartDebugging",
+        "commentservices": "StartDebugging",
+        "imageservices": "StartDebugging"
       }
     }
   }

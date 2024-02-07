@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  userservices:
+    image: ${DOCKER_REGISTRY-}userservices
+    build:
+      context: .
+      dockerfile: UserServices/Dockerfile
+
+  blogservices:
+    image: ${DOCKER_REGISTRY-}blogservices
+    build:
+      context: .
+      dockerfile: BlogServices/Dockerfile
+
+
+  commentservices:
+    image: ${DOCKER_REGISTRY-}commentservices
+    build:
+      context: .
+      dockerfile: CommentServices/Dockerfile
+
+
+  imageservices:
+    image: ${DOCKER_REGISTRY-}imageservices
+    build:
+      context: .
+      dockerfile: ImageServices/Dockerfile
+
