@@ -22,4 +22,5 @@ RUN dotnet publish "./ImageServices.csproj" -c $BUILD_CONFIGURATION -o /app/publ
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+#COPY ["static/images/", "static/images/"]
 ENTRYPOINT ["dotnet", "ImageServices.dll"]

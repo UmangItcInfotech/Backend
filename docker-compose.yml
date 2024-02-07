@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.9'
 
 services:
   userservices:
@@ -6,24 +6,38 @@ services:
     build:
       context: .
       dockerfile: UserServices/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
 
   blogservices:
     image: ${DOCKER_REGISTRY-}blogservices
     build:
       context: .
       dockerfile: BlogServices/Dockerfile
-
+    ports:
+      - "8081:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
 
   commentservices:
     image: ${DOCKER_REGISTRY-}commentservices
     build:
       context: .
       dockerfile: CommentServices/Dockerfile
-
+    ports:
+      - "8082:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
 
   imageservices:
     image: ${DOCKER_REGISTRY-}imageservices
     build:
       context: .
       dockerfile: ImageServices/Dockerfile
+    ports:
+      - "8083:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
 
